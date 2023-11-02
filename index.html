@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Dashboard</title>
+    <link href="styles.css" rel="stylesheet">
+    <script src="script.js" defer></script>
+    <link rel="icon" type="image/x-icon" href="assets/book-outline.svg">
+</head>
+<body>
+    <dialog>
+        <form method="dialog">
+            <ul>
+                <li class="input-form"><label for="input-title">Enter the book-title</label></li>
+                <li class="input-form"><input type="text" name="title" id="input-title" placeholder="Harry Potter"></li>
+                <li class="input-form"><label for="input-author">Enter the author</label></li>
+                <li class="input-form"><input type="text" name="author" id="input-author" placeholder="Joanne K. Rowling"></li>
+                <li class="input-form"><label for="input-year">Enter the year</label></li>
+                <li class="input-form"><input type="number" name="year" id="input-year" min="0" max="2030" placeholder="2023"></li>
+                <li class="input-form form-buttons">
+                    <button id="cancel-form-btn" value="cancel" formmethod="dialog">Cancel</button>
+                    <button type="submit" id="submit-form-btn" value="default">Submit</button>
+                </li>
+            </ul>
+        </form>
+    </dialog>
+    <div class="header">
+        <h1>This is my cool book dashboard</h1>
+        <button type="button" class="new-book-btn">Add new book</button>
+    </div>
+    <div class="grid-container">
+        <div class="book-cards">
+        </div>
+    </div>
+    <div class="footer">
+        <p class="footer-text">© 2023 Alexander Gabriel | Image: <a href="https://images.unsplash.com/photo-1591951425328-48c1fe7179cd?auto=format&fit=crop&q=60&w=900&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjB8fGJvb2tzfGVufDB8fDB8fHww">Olga Tutunaru</a></p>
+    </div>
+</body>
+</html>
