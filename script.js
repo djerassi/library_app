@@ -1,17 +1,38 @@
-function Book(title, author, year, id) {
-  this.title = title;
-  this.author = author;
-  this.year = year;
-  this.id = id;
+class Book{
+  constructor(title, author, year, id){
+    this.title = title;
+    this.author = author;
+    this.year = year;
+    this.id = id;
+  }
 }
 
-function addBookToLibrary(libraryArray, book) {
-  libraryArray.push(book);
-  return libraryArray;
-}
-
-function showLibrary(library){
-    for (let book of library){
+class library{
+  constructor(libraryArray){
+    this.libraryArray = libraryArray;
+  };
+  get libraryArray(){
+    return this._libraryArray;
+  };
+  set libraryArray(value){
+    this._libraryArray = value;
+  };
+  addBookToLibrary(book){
+    this.libraryArray.push(book);
+    return this.libraryArray;
+  };
+  deleteBook(bookId){
+    for (let book of this.libraryArray) {
+      if (book.id == bookId) {
+        let filteredLibrary = this.libraryArray.filter(mybook => {return mybook !== book});
+        console.log(filteredLibrary);
+        return filteredLibrary;
+      };
+    };
+    return this.libraryArray;
+  }
+  showLibrary(currentArray){
+    for (let book of currentArray){
         const container = document.querySelector(".book-cards");
 
         //Create new card
@@ -61,19 +82,18 @@ function showLibrary(library){
         myBookCard.appendChild(year_p);
         myBookCard.appendChild(cardBtnDiv);
         myBookCard.appendChild(readStatus);
+        console.log(readStatus);
 
         //Append card to grid
         container.appendChild(myBookCard);
-
         //Add EventListeners
         readBtn.addEventListener("click", (e) => {
           console.log(readBtn);
           let cardId = e.target.parentNode.parentNode.id;
-          console.log(cardId);
-          readP = document.querySelector(`.read-status-${cardId}`);
+          let readP = document.querySelector(`.read-status-${cardId}`);
           readP.classList.toggle("read");
           console.log(readP);
-          isRead = readP.classList.contains("read");
+          let isRead = readP.classList.contains("read");
           console.log(isRead);
           switch (isRead){
             case true:
@@ -90,34 +110,25 @@ function showLibrary(library){
         deleteBtn.addEventListener("click", (e) => {
           let bookId = e.target.parentNode.parentNode.id;
           console.log(bookId)
-          myLibrary = deleteBook(myLibrary, bookId);
+          this.libraryArray = this.deleteBook(bookId);
           document.getElementById(`${bookId}`).remove();
-          console.log(myLibrary);
+          console.log(this.libraryArray);
         })
-    }
-}
-
-function deleteBook(library, bookId){
-  for (let book of library) {
-    if (book.id == bookId) {
-      let filteredLibrary = library.filter(mybook => {return mybook !== book});
-      console.log(filteredLibrary);
-      return filteredLibrary;
-    };
-  };
-  return library;
+      }
+  }
 }
 
 const book1 = new Book("War & Peace", "Lew Tolstoi", 1869, 0);
 const book2 = new Book("The Firm", "John Grisham", 1991, 1);
 const book3 = new Book("Crime & Punishment", "Fyodor Dostojevsky", 1866, 2);
-let myLibrary = [book1, book2, book3];
+let myLibrary = new library([book1, book2, book3]);
+
 const dialog = document.querySelector("dialog");
 const addBookBtn = document.querySelector(".new-book-btn");
 const cancelBtn = document.querySelector("#cancel-form-btn");
 const submitFormBtn = document.querySelector("#submit-form-btn");
 
-showLibrary(myLibrary);
+myLibrary.showLibrary(myLibrary.libraryArray);
 let readBtns = document.querySelectorAll(".read-btn");
 let deleteBtns = document.querySelectorAll(".delete-btn");
 
@@ -126,10 +137,10 @@ submitFormBtn.addEventListener("click", (e) => {
     const title = document.querySelector("#input-title");
     const author = document.querySelector("#input-author");
     const year = document.querySelector("#input-year");
-    const id = myLibrary.slice(-1)[0].id + 1;
+    const id = myLibrary.libraryArray.slice(-1)[0].id + 1;
     const book = new Book(title.value, author.value, year.value, id);
-    myLibrary = addBookToLibrary(myLibrary, book);
-    showLibrary([book]);
+    myLibrary.libraryArray = myLibrary.addBookToLibrary(book);
+    myLibrary.showLibrary([book]);
     readBtns = document.querySelectorAll(".read-btn");
     deleteBtns = document.querySelectorAll(".delete-btn");
     dialog.close();
